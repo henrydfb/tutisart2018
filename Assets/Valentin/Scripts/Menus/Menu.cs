@@ -24,6 +24,11 @@ public class Menu : MonoBehaviour
 
     private bool buttonSelected;
 
+    public EMenu Type
+    {
+        get { return type; }
+    }
+
     // Use this for initialization
     protected void Start ()
     {
