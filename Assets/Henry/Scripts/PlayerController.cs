@@ -54,6 +54,8 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log("HotZONE");
         }
+        if (other.gameObject.tag == "MagmaZone")
+            SceneManager.LoadScene("GameOver");
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -86,10 +88,8 @@ public class PlayerController : MonoBehaviour
         }
 
         if (other.gameObject.tag == "HotZone")
-        {
             currentWaterLose = WATER_LOSS;
-            Debug.Log("HotZONE");
-        }
+
     }
 
     public bool IsInCloudZone()
