@@ -4,44 +4,53 @@ using UnityEngine;
 
 public class CharacterMovement : PhysicsObject
 {
-    public float maxSpeed = 7f;
-    public float jumpTakeOffSpeed = 7f;
-    public float walkingSpeed = 1f;
-    public float runningSpeed = 3f;
+    public float maxSpeed = 7;
+    public float jumpTakeOffSpeed = 70;
 
+    private SpriteRenderer spriteRenderer;
     private bool doubleJump = false;
 
     private bool leftMove = false;
     private bool rightMove = false;
-    private bool isRunning = false;
 
     // Use this for initialization
     void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     protected override void ComputeVelocity()
     {
         Vector2 move = Vector2.zero;
 
-        UpdateKey();
+        leftMove = Input.GetKey("q");
+        rightMove = Input.GetKey("d");
 
         if (leftMove && rightMove)
+        {
             move.x = 0;
+            GetComponent<Animator>().SetTrigger("Idle");
+        }
         else if (rightMove)
         {
-            if(isRunning)
-                move.x = runningSpeed;
-            else
-                move.x = walkingSpeed;
+            move.x = 1;
+            GetComponent<Animator>().SetTrigger("Walk");
+            transform.localScale = new Vector3(1, 1, 1);
         }
         else if (leftMove)
         {
-            if (isRunning)
-                move.x = -runningSpeed;
-            else
-                move.x = -walkingSpeed;
+            move.x = -1;
+            GetComponent<Animator>().SetTrigger("Walk");
+            transform.localScale = new Vector3(-1, 1, 1);
         }
+        else
+        {
+            if(!leftMove && !rightMove)
+                GetComponent<Animator>().SetTrigger("Idle");
+        }
+
+        if (grounded)
+            doubleJump = false;
 
         if (Input.GetButtonDown("Jump") && grounded)
             velocity.y = jumpTakeOffSpeed;
@@ -57,17 +66,5 @@ public class CharacterMovement : PhysicsObject
         }
 
         targetVelocity = move * maxSpeed;
-    }
-
-    private void UpdateKey()
-    {
-        leftMove = Input.GetKey("q");
-        rightMove = Input.GetKey("d");
-
-        if (grounded)
-        {
-            isRunning = Input.GetKey(KeyCode.LeftShift);
-            doubleJump = false;
-        }
     }
 }
