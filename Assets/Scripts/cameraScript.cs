@@ -15,7 +15,7 @@ public class cameraScript : MonoBehaviour
     [SerializeField]
     private float smoothing = 5f;
 
-    public Vector3 Offset { get; set; }
+    //public Vector3 Offset { get; set; }
 
     public bool isInLevel { get; set; }
     public bool isInBeginning { get; set; }
@@ -42,9 +42,9 @@ public class cameraScript : MonoBehaviour
         if (isInLevel)
         {
 
-            Vector3 targetCamPos = Target.position + Offset;
+           // Vector3 targetCamPos = Target.position + Offset;
 
-            transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, new Vector3 (Target.position.x, Target.position.y, -10), smoothing * Time.deltaTime);
         }
         else if (isInEnd)
         {

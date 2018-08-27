@@ -13,10 +13,13 @@ public class PlayerController : MonoBehaviour
 
     float water = MAX_WATER;
     bool insideCloudeZone;
+    bool insideDropZone;
     GameController gameController;
     CloudZoneController zone;
+    DropZoneController Dropzone;
 
     Rigidbody2D m_Rigidbody;
+    private int Cost = 0;
 
     private void Start()
     {
@@ -33,14 +36,16 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "CloudZone")
+        if (other.tag == "CloudZone")
         {
             insideCloudeZone = true;
             zone = other.gameObject.GetComponent<CloudZoneController>();
         }
-        if (other.gameObject.tag == "enemy")
+
+        if (other.tag == "Drop")
         {
-            m_Rigidbody.AddForce(new Vector2(-transform.forward.x, 0), ForceMode2D.Impulse);
+            insideDropZone = true;
+            Cost = other.GetComponent<DropZoneController>().Cost;
         }
         if (other.gameObject.tag == "HotZone")
         {
@@ -51,6 +56,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        GetComponent<Animator>().SetTrigger("Damage");
+        if (other.gameObject.tag == "enemy")
+        {
+            if(transform.position.x <= other.transform.position.x)
+                m_Rigidbody.AddForce(new Vector2(1,1) * -200f);
+            else
+                m_Rigidbody.AddForce(new Vector2(1, 1) * 200f);
+
+            GetComponent<Animator>().SetTrigger("Damage");
+        }
+    }
+
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "CloudZone")
@@ -58,6 +77,14 @@ public class PlayerController : MonoBehaviour
             insideCloudeZone = false;
             zone = null;
         }
+
+        if (other.gameObject.tag == "Drop")
+        {
+            Cost = 0;
+            insideDropZone = false;
+            Dropzone = null;
+        }
+
         if (other.gameObject.tag == "HotZone")
         {
             currentWaterLose = WATER_LOSS;
@@ -80,6 +107,11 @@ public class PlayerController : MonoBehaviour
                 LoseWater(10);
                 zone.path.CreateCloud();
             }
+        }
+
+        if (Input.GetKeyUp(KeyCode.Z) && insideDropZone)
+        {
+            LoseWater(Cost);
         }
     }
 
