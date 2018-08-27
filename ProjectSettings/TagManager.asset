@@ -10,6 +10,8 @@ TagManager:
   - enemy
   - Drop
   - CloudZone
+  - HotZone
+  - MagmaZone
   layers:
   - Default
   - TransparentFX

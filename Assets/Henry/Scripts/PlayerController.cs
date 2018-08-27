@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
+    public const float MAX_WATER = 100f;
+    [SerializeField]
+    float WATER_LOSS = 0.1f;
 
-    public const float MAX_WATER = 100;
+    float currentWaterLose;
 
     float water = MAX_WATER;
     bool insideCloudeZone;
@@ -27,6 +31,7 @@ public class PlayerController : MonoBehaviour {
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        currentWaterLose = WATER_LOSS;
         StartCoroutine(LoseWaterCoroutine());
     }
 
@@ -48,6 +53,15 @@ public class PlayerController : MonoBehaviour {
             insideDropZone = true;
             waterCost = other.GetComponent<DropZoneController>().Cost;
         }
+        if (other.gameObject.tag == "HotZone")
+        {
+            HotZone hotZone = other.gameObject.GetComponent<HotZone>();
+            currentWaterLose = hotZone.WaterLoss;
+
+            Debug.Log("HotZONE");
+        }
+        if (other.gameObject.tag == "MagmaZone")
+            SceneManager.LoadScene("GameOver");
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -80,6 +94,9 @@ public class PlayerController : MonoBehaviour {
             Dropzone = null;
         }
 
+        if (other.gameObject.tag == "HotZone")
+            currentWaterLose = WATER_LOSS;
+
     }
 
     public bool IsInCloudZone()
@@ -90,7 +107,6 @@ public class PlayerController : MonoBehaviour {
     private void Update()
     {
         //transform.position += new Vector3(Input.GetAxis("Horizontal"), 0) * 0.1f;
-
         if (Input.GetKeyUp(KeyCode.E) && insideCloudeZone)
         {
             if (zone != null)
@@ -126,13 +142,13 @@ public class PlayerController : MonoBehaviour {
 
     public IEnumerator LoseWaterCoroutine()
     {
-        const float WATER_LOSS = 0.1f;
+        //const float WATER_LOSS = 10f;
 
         while (true)
         {
             yield return new WaitForSeconds(1);
 
-            LoseWater(WATER_LOSS);
+            LoseWater(currentWaterLose);
         }
     }
 }

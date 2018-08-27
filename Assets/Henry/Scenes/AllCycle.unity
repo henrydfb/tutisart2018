@@ -2013,7 +2013,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1615398895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4475f5b23c232a49b83548c1fb84dbe, type: 3}
+  m_Script: {fileID: 11500000, guid: a4b9554bb8522c64d9daa80d5b8555d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   minGroundNormalY: 0.65

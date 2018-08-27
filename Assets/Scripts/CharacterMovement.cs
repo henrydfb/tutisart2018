@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterMovement : PhysicsObject
 {
     public float maxSpeed = 7;
-    public float jumpTakeOffSpeed = 70;
+    public float jumpTakeOffSpeed = 7;
 
     private SpriteRenderer spriteRenderer;
     private bool doubleJump = false;
