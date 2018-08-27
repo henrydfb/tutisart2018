@@ -9,7 +9,6 @@ public class CharacterMovement : PhysicsObject
     public float walkingSpeed = 1f;
     public float runningSpeed = 3f;
 
-    private SpriteRenderer spriteRenderer;
     private bool doubleJump = false;
 
     private bool leftMove = false;
@@ -19,7 +18,6 @@ public class CharacterMovement : PhysicsObject
     // Use this for initialization
     void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     protected override void ComputeVelocity()
