@@ -15,9 +15,9 @@ public enum EMenu
 public class Menu : MonoBehaviour
 {
     [SerializeField]
-    List<Button> buttons;
+    protected List<Button> buttons;
     [SerializeField]
-    EMenu type;
+    protected EMenu type;
 
     public EventSystem eventSystem;
     public GameObject selectedObject;
@@ -44,6 +44,11 @@ public class Menu : MonoBehaviour
             eventSystem.SetSelectedGameObject(selectedObject);
             buttonSelected = true;
         }
+    }
+
+    protected void Validate()
+    {
+
     }
 
     private void OnDisable()

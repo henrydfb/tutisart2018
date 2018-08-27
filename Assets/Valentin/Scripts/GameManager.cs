@@ -24,17 +24,9 @@ public class GameManager : MonoBehaviour
         set { gameState = value; }
     }
 
-    //public static GameManager instance = null;
-
     void Awake()
     {
-        if (instance == null)
-            instance = this;
-
-        else if (instance != this)
-            Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
+        instance = this;
     }
 
     // Use this for initialization
@@ -58,5 +50,10 @@ public class GameManager : MonoBehaviour
             MenuManager.instance.GetMenu(EMenu.PauseMenu).gameObject.SetActive(false);
             Time.timeScale = 1f;
         }
+    }
+
+    void OnDestroy()
+    {
+        Time.timeScale = 1f;
     }
 }
