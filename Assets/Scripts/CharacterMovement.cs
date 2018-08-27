@@ -89,7 +89,7 @@ public class CharacterMovement : PhysicsObject
                 child.SetActive(true);
                 Camera.main.GetComponent<cameraScript>().isInLevel = true;
                 Camera.main.GetComponent<cameraScript>().isInBeginning = false;
-                Camera.main.GetComponent<cameraScript>().Offset = Camera.main.transform.position - child.transform.position;
+               // Camera.main.GetComponent<cameraScript>().Offset = Camera.main.transform.position - child.transform.position;
                 Camera.main.GetComponent<cameraScript>().Target = child.transform;
             }
             else
@@ -97,7 +97,7 @@ public class CharacterMovement : PhysicsObject
                 child.SetActive(false);
                 Camera.main.GetComponent<cameraScript>().isInLevel = false;
                 Camera.main.GetComponent<cameraScript>().isInBeginning = true;
-                Camera.main.GetComponent<cameraScript>().Offset = new Vector3(0, 0, 0);
+               // Camera.main.GetComponent<cameraScript>().Offset = new Vector3(0, 0, 0);
             }
 
         }
@@ -108,14 +108,14 @@ public class CharacterMovement : PhysicsObject
                 child.SetActive(false);
                 Camera.main.GetComponent<cameraScript>().isInLevel = false;
                 Camera.main.GetComponent<cameraScript>().isInEnd = true;
-                Camera.main.GetComponent<cameraScript>().Offset = new Vector3(0, 0, 0);
+               // Camera.main.GetComponent<cameraScript>().Offset = new Vector3(0, 0, 0);
             }
             else
             {
                 child.SetActive(true);
                 Camera.main.GetComponent<cameraScript>().isInLevel = true;
                 Camera.main.GetComponent<cameraScript>().isInEnd = false;
-                Camera.main.GetComponent<cameraScript>().Offset = Camera.main.transform.position - child.transform.position;
+                //Camera.main.GetComponent<cameraScript>().Offset = Camera.main.transform.position - child.transform.position;
                 Camera.main.GetComponent<cameraScript>().Target = child.transform;
             }
 

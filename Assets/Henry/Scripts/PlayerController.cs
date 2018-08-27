@@ -9,10 +9,13 @@ public class PlayerController : MonoBehaviour {
 
     float water = MAX_WATER;
     bool insideCloudeZone;
+    bool insideDropZone;
     GameController gameController;
     CloudZoneController zone;
+    DropZoneController Dropzone;
 
     Rigidbody2D m_Rigidbody;
+    private int Cost = 0;
 
     private void Start()
     {
@@ -32,6 +35,12 @@ public class PlayerController : MonoBehaviour {
         {
             insideCloudeZone = true;
             zone = other.gameObject.GetComponent<CloudZoneController>();
+        }
+
+        if (other.tag == "Drop")
+        {
+            insideDropZone = true;
+            Cost = other.GetComponent<DropZoneController>().Cost;
         }
     }
 
@@ -56,6 +65,14 @@ public class PlayerController : MonoBehaviour {
             insideCloudeZone = false;
             zone = null;
         }
+
+        if (other.gameObject.tag == "Drop")
+        {
+            Cost = 0;
+            insideDropZone = false;
+            Dropzone = null;
+        }
+
     }
 
     public bool IsInCloudZone()
@@ -74,6 +91,11 @@ public class PlayerController : MonoBehaviour {
                 LoseWater(10);
                 zone.path.CreateCloud();
             }
+        }
+
+        if (Input.GetKeyUp(KeyCode.Z) && insideDropZone)
+        {
+            LoseWater(Cost);
         }
     }
 
