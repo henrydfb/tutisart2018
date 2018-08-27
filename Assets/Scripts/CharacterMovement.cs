@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class CharacterMovement : PhysicsObject
 {
-    public float maxSpeed = 7;
-    public float jumpTakeOffSpeed = 70;
+    public float maxSpeed = 7f;
+    public float jumpTakeOffSpeed = 7f;
+    public float walkingSpeed = 1f;
+    public float runningSpeed = 3f;
 
     private SpriteRenderer spriteRenderer;
     private bool doubleJump = false;
 
     private bool leftMove = false;
     private bool rightMove = false;
+    private bool isRunning = false;
 
     // Use this for initialization
     void Awake()
@@ -23,18 +26,24 @@ public class CharacterMovement : PhysicsObject
     {
         Vector2 move = Vector2.zero;
 
-        leftMove = Input.GetKey("q");
-        rightMove = Input.GetKey("d");
+        UpdateKey();
 
         if (leftMove && rightMove)
             move.x = 0;
         else if (rightMove)
-            move.x = 1;
+        {
+            if(isRunning)
+                move.x = runningSpeed;
+            else
+                move.x = walkingSpeed;
+        }
         else if (leftMove)
-            move.x = -1;
-
-        if (grounded)
-            doubleJump = false;
+        {
+            if (isRunning)
+                move.x = -runningSpeed;
+            else
+                move.x = -walkingSpeed;
+        }
 
         if (Input.GetButtonDown("Jump") && grounded)
             velocity.y = jumpTakeOffSpeed;
@@ -50,5 +59,20 @@ public class CharacterMovement : PhysicsObject
         }
 
         targetVelocity = move * maxSpeed;
+    }
+
+    private void UpdateKey()
+    {
+        leftMove = Input.GetKey("q");
+        rightMove = Input.GetKey("d");
+        
+
+        Debug.Log(Input.GetKey(KeyCode.LeftShift));
+
+        if (grounded)
+        {
+            isRunning = Input.GetKey(KeyCode.LeftShift);
+            doubleJump = false;
+        }
     }
 }
