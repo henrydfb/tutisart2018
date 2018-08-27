@@ -15,7 +15,13 @@ public class PlayerController : MonoBehaviour {
     DropZoneController Dropzone;
 
     Rigidbody2D m_Rigidbody;
-    private int Cost = 0;
+    private int waterCost = 0;
+
+    [SerializeField]
+    private int damageTaken = 10;
+
+    [SerializeField]
+    private float knockForce = 100f;
 
     private void Start()
     {
@@ -40,21 +46,22 @@ public class PlayerController : MonoBehaviour {
         if (other.tag == "Drop")
         {
             insideDropZone = true;
-            Cost = other.GetComponent<DropZoneController>().Cost;
+            waterCost = other.GetComponent<DropZoneController>().Cost;
         }
     }
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        GetComponent<Animator>().SetTrigger("Damage");
         if (other.gameObject.tag == "enemy")
         {
             if(transform.position.x <= other.transform.position.x)
-                m_Rigidbody.AddForce(new Vector2(1,1) * -200f);
+                m_Rigidbody.AddForce(new Vector2(-1,1) * knockForce);
             else
-                m_Rigidbody.AddForce(new Vector2(1, 1) * 200f);
+                m_Rigidbody.AddForce(new Vector2(1, 1) * knockForce);
 
-            GetComponent<Animator>().SetTrigger("Damage");
+            LoseWater(10);
+
+            //GetComponent<Animator>().SetBool("Damage",true);
         }
     }
 
@@ -68,7 +75,7 @@ public class PlayerController : MonoBehaviour {
 
         if (other.gameObject.tag == "Drop")
         {
-            Cost = 0;
+            waterCost = 0;
             insideDropZone = false;
             Dropzone = null;
         }
@@ -88,14 +95,14 @@ public class PlayerController : MonoBehaviour {
         {
             if (zone != null)
             {
-                LoseWater(10);
+                LoseWater(damageTaken);
                 zone.path.CreateCloud();
             }
         }
 
         if (Input.GetKeyUp(KeyCode.Z) && insideDropZone)
         {
-            LoseWater(Cost);
+            LoseWater(waterCost);
         }
     }
 
