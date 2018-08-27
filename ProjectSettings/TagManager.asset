@@ -6,6 +6,11 @@ TagManager:
   tags:
   - beginTrigger
   - endTrigger
+  - Wall
+  - enemy
+  - Drop
+  - CloudZone
+  - HotZone
   layers:
   - Default
   - TransparentFX
