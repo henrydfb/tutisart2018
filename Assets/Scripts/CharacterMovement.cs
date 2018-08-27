@@ -27,11 +27,27 @@ public class CharacterMovement : PhysicsObject
         rightMove = Input.GetKey("d");
 
         if (leftMove && rightMove)
+        {
             move.x = 0;
+            GetComponent<Animator>().SetTrigger("Idle");
+        }
         else if (rightMove)
+        {
             move.x = 1;
+            GetComponent<Animator>().SetTrigger("Walk");
+            transform.localScale = new Vector3(1, 1, 1);
+        }
         else if (leftMove)
+        {
             move.x = -1;
+            GetComponent<Animator>().SetTrigger("Walk");
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            if(!leftMove && !rightMove)
+                GetComponent<Animator>().SetTrigger("Idle");
+        }
 
         if (grounded)
             doubleJump = false;
