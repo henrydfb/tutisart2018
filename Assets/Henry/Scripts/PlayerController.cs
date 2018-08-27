@@ -28,14 +28,24 @@ public class PlayerController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "CloudZone")
+        if (other.tag == "CloudZone")
         {
             insideCloudeZone = true;
             zone = other.gameObject.GetComponent<CloudZoneController>();
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        GetComponent<Animator>().SetTrigger("Damage");
         if (other.gameObject.tag == "enemy")
         {
-            m_Rigidbody.AddForce(new Vector2(-transform.forward.x, 0), ForceMode2D.Impulse);
+            if(transform.position.x <= other.transform.position.x)
+                m_Rigidbody.AddForce(new Vector2(1,1) * -200f);
+            else
+                m_Rigidbody.AddForce(new Vector2(1, 1) * 200f);
+
+            GetComponent<Animator>().SetTrigger("Damage");
         }
     }
 

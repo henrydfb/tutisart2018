@@ -13,9 +13,6 @@ public class CharacterMovement : PhysicsObject
     private bool leftMove = false;
     private bool rightMove = false;
 
-    private bool exitBegin = true;
-    private bool enterEnd = true;
-
     // Use this for initialization
     void Awake()
     {
@@ -29,29 +26,38 @@ public class CharacterMovement : PhysicsObject
         leftMove = Input.GetKey("q");
         rightMove = Input.GetKey("d");
 
+        bool wasGoingLeft = false;
 
         float size = GetComponent<PlayerController>().GetWaterAmount() / 100f;
         if (leftMove && rightMove)
         {
             move.x = 0;
             GetComponent<Animator>().SetTrigger("Idle");
+            transform.localScale = new Vector3(size, size, 1);
         }
         else if (rightMove)
         {
             move.x = 1;
             GetComponent<Animator>().SetTrigger("Walk");
             transform.localScale = new Vector3(size, size, 1);
+            wasGoingLeft = false;
         }
         else if (leftMove)
         {
             move.x = -1;
             GetComponent<Animator>().SetTrigger("Walk");
             transform.localScale = new Vector3(-size, size, 1);
+            wasGoingLeft = true;
         }
         else
         {
             if(!leftMove && !rightMove)
                 GetComponent<Animator>().SetTrigger("Idle");
+
+            if(wasGoingLeft)
+             transform.localScale = new Vector3(-size, size, 1);
+            else
+             transform.localScale = new Vector3(size, size, 1);
         }
 
         if (grounded)
@@ -78,14 +84,13 @@ public class CharacterMovement : PhysicsObject
         GameObject child = transform.Find("camFocus").gameObject;
         if (collision.tag == "beginTrigger")
         {
-            if (exitBegin)
+            if (transform.position.x > collision.transform.position.x)
             {
                 child.SetActive(true);
                 Camera.main.GetComponent<cameraScript>().isInLevel = true;
                 Camera.main.GetComponent<cameraScript>().isInBeginning = false;
                 Camera.main.GetComponent<cameraScript>().Offset = Camera.main.transform.position - child.transform.position;
                 Camera.main.GetComponent<cameraScript>().Target = child.transform;
-                exitBegin = !exitBegin;
             }
             else
             {
@@ -93,19 +98,17 @@ public class CharacterMovement : PhysicsObject
                 Camera.main.GetComponent<cameraScript>().isInLevel = false;
                 Camera.main.GetComponent<cameraScript>().isInBeginning = true;
                 Camera.main.GetComponent<cameraScript>().Offset = new Vector3(0, 0, 0);
-                exitBegin = !exitBegin;
             }
 
         }
         if (collision.tag == "endTrigger")
         {
-            if (enterEnd)
+            if (transform.position.x >= collision.transform.position.x)
             {
                 child.SetActive(false);
                 Camera.main.GetComponent<cameraScript>().isInLevel = false;
                 Camera.main.GetComponent<cameraScript>().isInEnd = true;
                 Camera.main.GetComponent<cameraScript>().Offset = new Vector3(0, 0, 0);
-                enterEnd = !enterEnd;
             }
             else
             {
@@ -114,7 +117,6 @@ public class CharacterMovement : PhysicsObject
                 Camera.main.GetComponent<cameraScript>().isInEnd = false;
                 Camera.main.GetComponent<cameraScript>().Offset = Camera.main.transform.position - child.transform.position;
                 Camera.main.GetComponent<cameraScript>().Target = child.transform;
-                enterEnd = !enterEnd;
             }
 
         }

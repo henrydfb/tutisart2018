@@ -605,6 +605,11 @@ Prefab:
       propertyPath: maxDistance
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 58705826033314672, guid: fb59fa0a47352734ebd125ad72c2bb8f,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb59fa0a47352734ebd125ad72c2bb8f, type: 2}
   m_IsPrefabAsset: 0
@@ -617,11 +622,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4474418334154922, guid: 830e7009dad3f614b9d90e0097bf4553, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -1.7726235
+      value: -1.81
       objectReference: {fileID: 0}
     - target: {fileID: 4474418334154922, guid: 830e7009dad3f614b9d90e0097bf4553, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.64
+      value: -0.98
       objectReference: {fileID: 0}
     - target: {fileID: 4474418334154922, guid: 830e7009dad3f614b9d90e0097bf4553, type: 2}
       propertyPath: m_LocalPosition.z
@@ -659,7 +664,12 @@ Prefab:
     - target: {fileID: 58610235454037894, guid: 830e7009dad3f614b9d90e0097bf4553,
         type: 2}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114719505469926118, guid: 830e7009dad3f614b9d90e0097bf4553,
+        type: 2}
+      propertyPath: speed
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 50710490269223896, guid: 830e7009dad3f614b9d90e0097bf4553, type: 2}
@@ -1691,6 +1701,31 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1199616144 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1514474467975696, guid: 830e7009dad3f614b9d90e0097bf4553,
+    type: 2}
+  m_PrefabInternal: {fileID: 446764800}
+--- !u!50 &1199616149
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1199616144}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1211233908
 GameObject:
   m_ObjectHideFlags: 0
