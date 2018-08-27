@@ -19,9 +19,10 @@ public class enemyWalkScript : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, transform.position + new Vector3(direction.x, direction.y, 0), speed * Time.deltaTime);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    void OnTriggerEnter2D(Collider2D col)
     {
-        if (collision.gameObject.tag == "Wall")
+        if (col.tag == "Wall")
             direction *= -1;
     }
 }
