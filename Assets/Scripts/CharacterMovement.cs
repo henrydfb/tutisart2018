@@ -65,9 +65,6 @@ public class CharacterMovement : PhysicsObject
     {
         leftMove = Input.GetKey("q");
         rightMove = Input.GetKey("d");
-        
-
-        Debug.Log(Input.GetKey(KeyCode.LeftShift));
 
         if (grounded)
         {
