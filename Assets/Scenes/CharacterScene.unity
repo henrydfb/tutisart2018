@@ -1539,6 +1539,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c1dbe85ce68904bbbffa57107b3f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WATER_LOSS: 0.1
+  damageTaken: 10
   knockForce: 100
 --- !u!114 &893641292
 MonoBehaviour:
@@ -2279,6 +2281,48 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4558374006977920, guid: 3f3192c1a88c1fe46a9a332320badfcc,
     type: 2}
   m_PrefabInternal: {fileID: 1508681003}
+--- !u!1001 &1548522333
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4026451794925406, guid: 8d28bc8f8e1c2a84cbaa373009f7d920, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026451794925406, guid: 8d28bc8f8e1c2a84cbaa373009f7d920, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -17.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026451794925406, guid: 8d28bc8f8e1c2a84cbaa373009f7d920, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026451794925406, guid: 8d28bc8f8e1c2a84cbaa373009f7d920, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026451794925406, guid: 8d28bc8f8e1c2a84cbaa373009f7d920, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026451794925406, guid: 8d28bc8f8e1c2a84cbaa373009f7d920, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026451794925406, guid: 8d28bc8f8e1c2a84cbaa373009f7d920, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026451794925406, guid: 8d28bc8f8e1c2a84cbaa373009f7d920, type: 2}
+      propertyPath: m_RootOrder
+      value: 23
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8d28bc8f8e1c2a84cbaa373009f7d920, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1610954881
 GameObject:
   m_ObjectHideFlags: 0
