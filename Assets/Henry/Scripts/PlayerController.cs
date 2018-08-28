@@ -1,21 +1,22 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
-{
-    public const float MAX_WATER = 100f;
+public class PlayerController : MonoBehaviour {
+
+    public const float MAX_WATER = 100;
+
+    float water = MAX_WATER;
+    bool insideCloudeZone;
+    GameController gameController;
+    CloudZoneController zone;
+    bool spawningCloud;
+    
     [SerializeField]
     float WATER_LOSS = 0.1f;
 
     float currentWaterLose;
-
-    float water = MAX_WATER;
-    bool insideCloudeZone;
-    bool insideDropZone;
-    GameController gameController;
-    CloudZoneController zone;
     DropZoneController Dropzone;
 
     Rigidbody2D m_Rigidbody;
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float knockForce = 100f;
 
+    bool insideDropZone;
+
     private void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
@@ -34,7 +37,7 @@ public class PlayerController : MonoBehaviour
         currentWaterLose = WATER_LOSS;
         StartCoroutine(LoseWaterCoroutine());
     }
-
+    
     public float GetWaterAmount()
     {
         return water;
@@ -42,34 +45,50 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "CloudZone")
+        switch (other.gameObject.tag)
         {
-            insideCloudeZone = true;
-            zone = other.gameObject.GetComponent<CloudZoneController>();
-        }
+            case "CloudZone":
+                insideCloudeZone = true;
+                zone = other.gameObject.GetComponent<CloudZoneController>();
+                if (zone != null)
+                {
+                    if (zone.path != null)
+                        zone.path.Activate();
+                }
+                break;
+            case "HealingCloud":
+                other.gameObject.GetComponent<HealingCloudController>().StartRain();
+                break;
+            case "Drop":
+                
+                if (other.GetComponent<DropZoneController>() != null)
+                {
+                    insideDropZone = true;
+                    waterCost = other.GetComponent<DropZoneController>().Cost;
+                }
+                break;
+            case "HotZone":
+                HotZone hotZone = other.gameObject.GetComponent<HotZone>();
+                currentWaterLose = hotZone.WaterLoss;
 
-        if (other.tag == "Drop")
-        {
-            insideDropZone = true;
-            waterCost = other.GetComponent<DropZoneController>().Cost;
-        }
-        if (other.gameObject.tag == "HotZone")
-        {
-            HotZone hotZone = other.gameObject.GetComponent<HotZone>();
-            currentWaterLose = hotZone.WaterLoss;
+                Debug.Log("HotZONE");
+                break;
+            case "MagmaZone":
+                SceneManager.LoadScene("GameOver");
+                break;
+            default:
+                break;
 
-            Debug.Log("HotZONE");
+
         }
-        if (other.gameObject.tag == "MagmaZone")
-            SceneManager.LoadScene("GameOver");
     }
 
     void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "enemy")
         {
-            if(transform.position.x <= other.transform.position.x)
-                m_Rigidbody.AddForce(new Vector2(-1,1) * knockForce);
+            if (transform.position.x <= other.transform.position.x)
+                m_Rigidbody.AddForce(new Vector2(-1, 1) * knockForce);
             else
                 m_Rigidbody.AddForce(new Vector2(1, 1) * knockForce);
 
@@ -81,24 +100,33 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "CloudZone")
+        switch (other.gameObject.tag)
         {
-            insideCloudeZone = false;
-            zone = null;
+            case "CloudZone":
+                if (zone != null)
+                {
+                    if (zone.path != null)
+                        zone.path.Deactivate();
+                }
+                insideCloudeZone = false;
+                zone = null;
+                break;
+            case "HealingCloud":
+                other.gameObject.GetComponent<HealingCloudController>().StopRain();
+                break;
+            case "Drop":
+                waterCost = 0;
+                insideDropZone = false;
+                Dropzone = null;
+                break;
+            case "HotZone":
+                currentWaterLose = WATER_LOSS;
+                break;
+            default:
+                break;
         }
-
-        if (other.gameObject.tag == "Drop")
-        {
-            waterCost = 0;
-            insideDropZone = false;
-            Dropzone = null;
-        }
-
-        if (other.gameObject.tag == "HotZone")
-            currentWaterLose = WATER_LOSS;
-
     }
-
+    
     public bool IsInCloudZone()
     {
         return insideCloudeZone;
@@ -107,12 +135,13 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         //transform.position += new Vector3(Input.GetAxis("Horizontal"), 0) * 0.1f;
+
         if (Input.GetKeyUp(KeyCode.E) && insideCloudeZone)
         {
             if (zone != null)
             {
-                LoseWater(damageTaken);
-                zone.path.CreateCloud();
+                transform.Find("Container").GetComponent<Animator>().SetTrigger("SpawnCloud");
+                spawningCloud = true;
             }
         }
 
@@ -121,34 +150,68 @@ public class PlayerController : MonoBehaviour
             LoseWater(waterCost);
         }
     }
-
+   
     public void LoseWater(float amount)
     {
+        /*water -= amount;
+        gameController.UpdatePlayerHUD();
+
+        if(water <= 0)
+            SceneManager.LoadScene("GameOver");*/
+
         water -= amount;
         gameController.UpdatePlayerHUD();
 
         transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(water / MAX_WATER, water / MAX_WATER, water / MAX_WATER), 10f * Time.deltaTime);
 
-        if(water <= 0)
+        if (water <= 0)
             SceneManager.LoadScene("GameOver");
     }
 
     public void GainWater(float amount)
     {
-        water += amount;
+        if (water + amount <= MAX_WATER)
+            water += amount;
+        else
+            water = MAX_WATER;
         gameController.UpdatePlayerHUD();
+
         transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(water / MAX_WATER, water / MAX_WATER, water / MAX_WATER), 10f * Time.deltaTime);
     }
 
     public IEnumerator LoseWaterCoroutine()
     {
-        //const float WATER_LOSS = 10f;
+        //const float WATER_LOSS = 0.1f;
 
         while (true)
         {
             yield return new WaitForSeconds(1);
 
+            //LoseWater(WATER_LOSS);
+
             LoseWater(currentWaterLose);
         }
+    }
+    
+    public void SpawnCloud()
+    {
+        if (zone != null)
+        {
+            if (zone.path != null)
+            {
+                LoseWater(10);
+                zone.path.CreateCloud();
+            }
+        }
+    }
+
+    public void EndSpawningCloud()
+    {
+        spawningCloud = false;
+    }
+
+    public bool IsSpawningCloud()
+    {
+        return spawningCloud;
     }
 }
