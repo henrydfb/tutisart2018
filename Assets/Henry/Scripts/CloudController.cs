@@ -5,21 +5,22 @@ public class CloudController : MonoBehaviour {
 
     public DropController dropPrefab;
 
-
+    bool isRaining;
 	// Use this for initialization
 	void Start ()
     {
-        StartCoroutine(Rain());
+        StartCoroutine(Rain(20,true));
 	}
 	
-    public IEnumerator Rain()
+    protected IEnumerator Rain(int dropsNumber = -1, bool destroy = false)
     {
         const float CLOUD_WIDTH = 1.5f;
         float waitTime, x, y;
         int drops = 0;
 
-        waitTime = Random.Range(0.5f, 1f);
-        while (drops < 20)
+        isRaining = true;
+        waitTime = Random.Range(0.1f, 0.5f);
+        while (isRaining)
         {
             yield return new WaitForSeconds(waitTime);
 
@@ -28,10 +29,28 @@ public class CloudController : MonoBehaviour {
 
             Instantiate(dropPrefab, new Vector3(x, y), Quaternion.identity);
 
-            waitTime = Random.Range(0.5f, 1f);
+            waitTime = Random.Range(0.1f, 0.5f);
             drops++;
+
+            if (dropsNumber > 0)
+            {
+                if (drops > dropsNumber)
+                    isRaining = false;
+            }
         }
 
-        Destroy(gameObject);
+        if(destroy)
+            Destroy(gameObject);
     }
+
+    public void StartRain()
+    {
+        StartCoroutine(Rain());
+    }
+
+    public void StopRain()
+    {
+        isRaining = false;
+    }
+
 }

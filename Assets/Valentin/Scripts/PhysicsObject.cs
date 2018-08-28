@@ -31,7 +31,7 @@ public class PhysicsObject : MonoBehaviour
         contactFilter.useLayerMask = true;
     }
 
-    void Update()
+    protected virtual void Update()
     {
         targetVelocity = Vector2.zero;
         if (GameManager.instance != null)
@@ -46,30 +46,24 @@ public class PhysicsObject : MonoBehaviour
 
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
-        //if(GameManager.instance != null)
-        //{
-        //    if (GameManager.instance.GameState == EGameState.InGame)
-        //    {
-                velocity += gravityModifier * Physics2D.gravity * Time.fixedDeltaTime;
-                velocity.x = targetVelocity.x;
+        velocity += gravityModifier * Physics2D.gravity * Time.fixedDeltaTime;
+        velocity.x = targetVelocity.x;
 
-                grounded = false;
+        grounded = false;
 
-                Vector2 deltaPosition = velocity * Time.fixedDeltaTime;
-                Vector2 moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
-                Vector2 move = moveAlongGround * deltaPosition.x;
+        Vector2 deltaPosition = velocity * Time.fixedDeltaTime;
+        Vector2 moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
+        Vector2 move = moveAlongGround * deltaPosition.x;
 
-                Movement(move, false);
+        Movement(move, false);
 
-                move = Vector2.up * deltaPosition.y;
+        move = Vector2.up * deltaPosition.y;
 
-                Movement(move, true);
-        //    }
-        //}
+        Movement(move, true);
     }
-
+    
     void Movement(Vector2 move, bool yMovement)
     {
         float distance = move.magnitude;
@@ -103,7 +97,7 @@ public class PhysicsObject : MonoBehaviour
                 distance = modifiedDistance < distance ? modifiedDistance : distance;
             }
         }
-
+        
         rb2d.position = rb2d.position + move.normalized * distance;
     }
 }

@@ -34,6 +34,8 @@ public class PathController : MonoBehaviour {
 
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+        Deactivate();
 	}
 
     public void ReachedPointCallback()
@@ -63,25 +65,26 @@ public class PathController : MonoBehaviour {
                 break;
 
             case MoveType.Backward:
-                
-                    aimPointIdx--;
+                aimPointIdx--;
 
-                    if (aimPointIdx == 0)
+                if (aimPointIdx == 0)
+                {
+                    switch (type)
                     {
-                        switch (type)
-                        {
-                            case PathType.Close:
-                                break;
-                            case PathType.Open:
-                                move = MoveType.Forward;
-                                StartCoroutine(Helper.MoveRoutine(aim.gameObject, transform.GetChild(aimPointIdx + 1).position, time, ReachedPointCallback));
-                                break;
-                        }
-
-                        
+                        case PathType.Close:
+                            break;
+                        case PathType.Open:
+                            move = MoveType.Forward;
+                            StartCoroutine(Helper.MoveRoutine(aim.gameObject, transform.GetChild(aimPointIdx + 1).position, time, ReachedPointCallback));
+                            break;
                     }
-                    else
+
+
+                }
+                else
+                {
                         StartCoroutine(Helper.MoveRoutine(aim.gameObject, transform.GetChild(aimPointIdx - 1).position, time, ReachedPointCallback));
+                }
                 break;
         }
     }
@@ -89,5 +92,25 @@ public class PathController : MonoBehaviour {
     public void CreateCloud()
     {
         Instantiate(cloudPrefab, aim.transform.position, Quaternion.identity);
+    }
+
+    public void Activate()
+    {
+        gameObject.SetActive(true);
+        if (aim != null)
+        {
+            aim.gameObject.SetActive(true);
+            aimPointIdx = 0;
+            aim.transform.position = transform.GetChild(aimPointIdx).position;
+            move = MoveType.Forward;
+            StartCoroutine(Helper.MoveRoutine(aim.gameObject, transform.GetChild(aimPointIdx + 1).position, 1, ReachedPointCallback));
+        }
+    }
+
+    public void Deactivate()
+    {
+        gameObject.SetActive(false);
+        if(aim != null)
+            aim.gameObject.SetActive(false);
     }
 }

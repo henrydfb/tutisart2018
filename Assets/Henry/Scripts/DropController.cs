@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DropController : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public class DropController : MonoBehaviour
+{   
+    protected virtual void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.name == "Platform" || other.gameObject.name == "Player" || other.gameObject.name == "Wall")
+            Destroy(gameObject);
+    }
 }
