@@ -23,7 +23,7 @@ public class CharacterMovement : PhysicsObject
     {
         Vector2 move = Vector2.zero;
 
-        leftMove = Input.GetKey("q");
+        leftMove = Input.GetKey("a");
         rightMove = Input.GetKey("d");
 
         bool wasGoingLeft = false;
