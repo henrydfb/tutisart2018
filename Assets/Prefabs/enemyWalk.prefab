@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 58610235454037894}
   - component: {fileID: 50710490269223896}
   - component: {fileID: 114719505469926118}
+  - component: {fileID: 95116303489284422}
   m_Layer: 0
   m_Name: enemyWalk
   m_TagString: enemy
@@ -78,6 +79,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
+--- !u!95 &95116303489284422
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1514474467975696}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114719505469926118
 MonoBehaviour:
   m_ObjectHideFlags: 1
