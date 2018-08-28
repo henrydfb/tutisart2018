@@ -1402,7 +1402,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c1dbe85ce68904bbbffa57107b3f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WATER_LOSS: 0.5
+  WATER_LOSS: 0.1
+  damageTaken: 10
+  knockForce: 100
 --- !u!114 &893641292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2411,6 +2413,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WATER_LOSS: 10
+  damageTaken: 10
+  knockForce: 100
 --- !u!50 &1740860779
 Rigidbody2D:
   serializedVersion: 4
