@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PhysicsObject : MonoBehaviour
 {
-    public float minGroundNormalY = 1f;
+    public float minGroundNormalY = 0.65f;
     public float gravityModifier = 1f;
 
     protected Vector2 targetVelocity;
@@ -34,7 +34,11 @@ public class PhysicsObject : MonoBehaviour
     protected virtual void Update()
     {
         targetVelocity = Vector2.zero;
-        ComputeVelocity();
+        //if (GameManager.instance != null)
+        //{
+        //    if (GameManager.instance.GameState == EGameState.InGame)
+            ComputeVelocity();
+
     }
 
     protected virtual void ComputeVelocity()
@@ -44,16 +48,15 @@ public class PhysicsObject : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        Vector3 prevPos = transform.position;
         velocity += gravityModifier * Physics2D.gravity * Time.fixedDeltaTime;
         velocity.x = targetVelocity.x;
-        
+
         grounded = false;
 
         Vector2 deltaPosition = velocity * Time.fixedDeltaTime;
         Vector2 moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
         Vector2 move = moveAlongGround * deltaPosition.x;
-        
+
         Movement(move, false);
 
         move = Vector2.up * deltaPosition.y;

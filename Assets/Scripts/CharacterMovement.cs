@@ -1,5 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovement : PhysicsObject
@@ -36,6 +34,8 @@ public class CharacterMovement : PhysicsObject
     protected override void ComputeVelocity()
     {
         Vector2 move = Vector2.zero;
+        bool wasGoingLeft = false;
+        float size = playerController.GetWaterAmount() / PlayerController.MAX_WATER;
 
         leftMove = Input.GetAxisRaw("Horizontal") < 0; //Input.GetKey("q");
         rightMove = Input.GetAxisRaw("Horizontal") > 0; //Input.GetKey("d");
@@ -58,6 +58,8 @@ public class CharacterMovement : PhysicsObject
             transform.localScale = new Vector3(1, 1, 1);
             idling = false;
             walking = true;
+            //New code
+            wasGoingLeft = false;
         }
         else if (leftMove)
         {
@@ -67,6 +69,8 @@ public class CharacterMovement : PhysicsObject
             transform.localScale = new Vector3(-1, 1, 1);
             idling = false;
             walking = true;
+            //New code
+            wasGoingLeft = true;
         }
         else
         {
@@ -77,6 +81,12 @@ public class CharacterMovement : PhysicsObject
                 idling = true;
                 walking = false;
             }
+
+            //New code
+            if (wasGoingLeft)
+                transform.localScale = new Vector3(-size, size, 1);
+            else
+                transform.localScale = new Vector3(size, size, 1);
         }
 
         if (grounded)
@@ -98,7 +108,7 @@ public class CharacterMovement : PhysicsObject
 
         targetVelocity = move * maxSpeed;
     }
-
+    
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -129,5 +139,45 @@ public class CharacterMovement : PhysicsObject
         jumping = true;
         falling = false;
         walking = false;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        GameObject child = transform.Find("camFocus").gameObject;
+
+        if (collision.tag == "beginTrigger")
+        {
+            if (transform.position.x > collision.transform.position.x)
+            {
+                child.SetActive(true);
+                Camera.main.GetComponent<cameraScript>().isInLevel = true;
+                Camera.main.GetComponent<cameraScript>().isInBeginning = false;
+                Camera.main.GetComponent<cameraScript>().Target = child.transform;
+            }
+            else
+            {
+                child.SetActive(false);
+                Camera.main.GetComponent<cameraScript>().isInLevel = false;
+                Camera.main.GetComponent<cameraScript>().isInBeginning = true;
+            }
+
+        }
+        if (collision.tag == "endTrigger")
+        {
+            if (transform.position.x >= collision.transform.position.x)
+            {
+                child.SetActive(false);
+                Camera.main.GetComponent<cameraScript>().isInLevel = false;
+                Camera.main.GetComponent<cameraScript>().isInEnd = true;
+            }
+            else
+            {
+                child.SetActive(true);
+                Camera.main.GetComponent<cameraScript>().isInLevel = true;
+                Camera.main.GetComponent<cameraScript>().isInEnd = false;
+                Camera.main.GetComponent<cameraScript>().Target = child.transform;
+            }
+
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,13 +12,32 @@ public class PlayerController : MonoBehaviour {
     GameController gameController;
     CloudZoneController zone;
     bool spawningCloud;
+    
+    [SerializeField]
+    float WATER_LOSS = 0.1f;
+
+    float currentWaterLose;
+    DropZoneController Dropzone;
+
+    Rigidbody2D m_Rigidbody;
+    private int waterCost = 0;
+
+    [SerializeField]
+    private int damageTaken = 10;
+
+    [SerializeField]
+    private float knockForce = 100f;
+
+    bool insideDropZone;
 
     private void Start()
     {
+        m_Rigidbody = GetComponent<Rigidbody2D>();
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        currentWaterLose = WATER_LOSS;
         StartCoroutine(LoseWaterCoroutine());
     }
-
+    
     public float GetWaterAmount()
     {
         return water;
@@ -40,10 +59,42 @@ public class PlayerController : MonoBehaviour {
             case "HealingCloud":
                 other.gameObject.GetComponent<HealingCloudController>().StartRain();
                 break;
+            case "Drop":
+                
+                if (other.GetComponent<DropZoneController>() != null)
+                {
+                    insideDropZone = true;
+                    waterCost = other.GetComponent<DropZoneController>().Cost;
+                }
+                break;
+            case "HotZone":
+                HotZone hotZone = other.gameObject.GetComponent<HotZone>();
+                currentWaterLose = hotZone.WaterLoss;
+
+                Debug.Log("HotZONE");
+                break;
+            case "MagmaZone":
+                SceneManager.LoadScene("GameOver");
+                break;
             default:
                 break;
 
 
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "enemy")
+        {
+            if (transform.position.x <= other.transform.position.x)
+                m_Rigidbody.AddForce(new Vector2(-1, 1) * knockForce);
+            else
+                m_Rigidbody.AddForce(new Vector2(1, 1) * knockForce);
+
+            LoseWater(10);
+
+            //GetComponent<Animator>().SetBool("Damage",true);
         }
     }
 
@@ -63,11 +114,19 @@ public class PlayerController : MonoBehaviour {
             case "HealingCloud":
                 other.gameObject.GetComponent<HealingCloudController>().StopRain();
                 break;
+            case "Drop":
+                waterCost = 0;
+                insideDropZone = false;
+                Dropzone = null;
+                break;
+            case "HotZone":
+                currentWaterLose = WATER_LOSS;
+                break;
             default:
                 break;
         }
     }
-
+    
     public bool IsInCloudZone()
     {
         return insideCloudeZone;
@@ -85,14 +144,27 @@ public class PlayerController : MonoBehaviour {
                 spawningCloud = true;
             }
         }
-    }
 
+        if (Input.GetKeyUp(KeyCode.Z) && insideDropZone)
+        {
+            LoseWater(waterCost);
+        }
+    }
+   
     public void LoseWater(float amount)
     {
-        water -= amount;
+        /*water -= amount;
         gameController.UpdatePlayerHUD();
 
         if(water <= 0)
+            SceneManager.LoadScene("GameOver");*/
+
+        water -= amount;
+        gameController.UpdatePlayerHUD();
+
+        transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(water / MAX_WATER, water / MAX_WATER, water / MAX_WATER), 10f * Time.deltaTime);
+
+        if (water <= 0)
             SceneManager.LoadScene("GameOver");
     }
 
@@ -102,21 +174,25 @@ public class PlayerController : MonoBehaviour {
             water += amount;
         else
             water = MAX_WATER;
-            gameController.UpdatePlayerHUD();
+        gameController.UpdatePlayerHUD();
+
+        transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(water / MAX_WATER, water / MAX_WATER, water / MAX_WATER), 10f * Time.deltaTime);
     }
 
     public IEnumerator LoseWaterCoroutine()
     {
-        const float WATER_LOSS = 0.1f;
+        //const float WATER_LOSS = 0.1f;
 
         while (true)
         {
             yield return new WaitForSeconds(1);
 
-            LoseWater(WATER_LOSS);
+            //LoseWater(WATER_LOSS);
+
+            LoseWater(currentWaterLose);
         }
     }
-
+    
     public void SpawnCloud()
     {
         if (zone != null)
