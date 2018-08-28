@@ -9,6 +9,7 @@ public enum EMenu
     PauseMenu,
     TitleMenu,
     LevelMenu,
+    GameOverMenu,
     Count
 }
 

@@ -47,7 +47,6 @@ public class PlayerController : MonoBehaviour
             insideCloudeZone = true;
             zone = other.gameObject.GetComponent<CloudZoneController>();
         }
-
         if (other.tag == "Drop")
         {
             insideDropZone = true;
@@ -57,8 +56,6 @@ public class PlayerController : MonoBehaviour
         {
             HotZone hotZone = other.gameObject.GetComponent<HotZone>();
             currentWaterLose = hotZone.WaterLoss;
-
-            Debug.Log("HotZONE");
         }
         if (other.gameObject.tag == "MagmaZone")
             SceneManager.LoadScene("GameOver");

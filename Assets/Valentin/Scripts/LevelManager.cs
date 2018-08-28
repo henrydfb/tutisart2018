@@ -6,13 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-
+    private int index;
 
 	// Use this for initialization
 	void Start ()
     {
+        index = SceneManager.GetActiveScene().buildIndex;
 
+        Debug.Log(index);
 
+        Level.IndexLevel = index;
     }
 
     // Update is called once per frame
@@ -20,19 +23,4 @@ public class LevelManager : MonoBehaviour
     {
 		
 	}
-
-    public void LoadLevel(int numLevel)
-    {
-        SceneManager.LoadScene(numLevel);
-    }
-
-    public void ReloadScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    public void Quit()
-    {
-        Application.Quit();
-    }
 }
