@@ -31,10 +31,14 @@ public class CharacterMovement : PhysicsObject
         playerController = GetComponent<PlayerController>();
     }
 
+    public bool IsWalking()
+    {
+        return walking;
+    }
+
     protected override void ComputeVelocity()
     {
         Vector2 move = Vector2.zero;
-        bool wasGoingLeft = false;
         float size = playerController.GetWaterAmount() / PlayerController.MAX_WATER;
 
         leftMove = Input.GetAxisRaw("Horizontal") < 0; //Input.GetKey("q");
@@ -45,7 +49,7 @@ public class CharacterMovement : PhysicsObject
             move.x = 0;
             if (!idling)
             {
-                if (!jumping && !playerController.IsSpawningCloud())
+                if (!jumping && !playerController.IsSpawningCloud() && !playerController.IsHit())
                    container.GetComponent<Animator>().SetTrigger("Idle");
                 idling = true;
             }
@@ -53,57 +57,63 @@ public class CharacterMovement : PhysicsObject
         else if (rightMove)
         {
             move.x = 1;
-            if(!jumping && !walking && !playerController.IsSpawningCloud())
+            if(!jumping && !walking && !playerController.IsSpawningCloud() && !playerController.IsHit())
                 container.GetComponent<Animator>().SetTrigger("Walk");
-            transform.localScale = new Vector3(1, 1, 1);
+
+            transform.localScale = new Vector3(size, size, 1);
+
             idling = false;
             walking = true;
-            //New code
-            wasGoingLeft = false;
         }
         else if (leftMove)
         {
             move.x = -1;
-            if (!jumping && !walking && !playerController.IsSpawningCloud())
+            if (!jumping && !walking && !playerController.IsSpawningCloud() && !playerController.IsHit())
                 container.GetComponent<Animator>().SetTrigger("Walk");
-            transform.localScale = new Vector3(-1, 1, 1);
+
+            transform.localScale = new Vector3(-size, size, 1);
+
             idling = false;
             walking = true;
-            //New code
-            wasGoingLeft = true;
         }
         else
         {
             if (!idling)
             {
-                if (!jumping && !playerController.IsSpawningCloud())
+                if (!jumping && !playerController.IsSpawningCloud() && !playerController.IsHit())
                     container.GetComponent<Animator>().SetTrigger("Idle");
                 idling = true;
                 walking = false;
             }
-
-            //New code
-            if (wasGoingLeft)
-                transform.localScale = new Vector3(-size, size, 1);
-            else
-                transform.localScale = new Vector3(size, size, 1);
         }
 
         if (grounded)
             doubleJump = false;
 
-        if (Input.GetButtonDown("Jump") && grounded)
-            container.GetComponent<Animator>().SetTrigger("Jump");
-        else if (Input.GetButtonDown("Jump") && !doubleJump)
+        if (!playerController.IsHit())
         {
-            velocity.y = jumpTakeOffSpeed * 1.5f;
-            doubleJump = true;
-            container.GetComponent<Animator>().SetTrigger("DirectJump");
-        }
-        else if (Input.GetButtonUp("Jump"))
-        {
-            if (velocity.y > 0)
-                velocity.y = velocity.y * 0.5f;
+            if (Input.GetButtonDown("Jump") && grounded)
+            {
+                container.GetComponent<Animator>().SetTrigger("DirectJump");
+                velocity.y = jumpTakeOffSpeed;
+                jumping = true;
+                falling = false;
+                walking = false;
+            }
+            else if (Input.GetButtonDown("Jump") && !doubleJump)
+            {
+                velocity.y = jumpTakeOffSpeed * 1.5f;
+                doubleJump = true;
+                container.GetComponent<Animator>().SetTrigger("DirectJump");
+                jumping = true;
+                falling = false;
+                walking = false;
+            }
+            else if (Input.GetButtonUp("Jump"))
+            {
+                if (velocity.y > 0)
+                    velocity.y = velocity.y * 0.5f;
+            }
         }
 
         targetVelocity = move * maxSpeed;
@@ -113,7 +123,7 @@ public class CharacterMovement : PhysicsObject
     {
         base.FixedUpdate();
         
-        if (!falling && jumping)
+        if (!falling && jumping && !playerController.IsHit())
         {
             if (prevPos.y > transform.position.y)
             {
@@ -122,7 +132,7 @@ public class CharacterMovement : PhysicsObject
             }
         }
 
-        if ((jumping || falling) && grounded)
+        if ((jumping || falling) && grounded && !playerController.IsHit())
         {
             container.GetComponent<Animator>().SetTrigger("Land");
             jumping = false;

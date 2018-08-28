@@ -18,4 +18,9 @@ public class PlayerAnimation : MonoBehaviour {
     {
         transform.parent.GetComponent<PlayerController>().EndSpawningCloud();
     }
+
+    public void EndLand()
+    {
+        transform.parent.GetComponent<PlayerController>().HandleLandEnded();
+    }
 }

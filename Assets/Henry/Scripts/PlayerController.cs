@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour {
 
     bool insideDropZone;
 
+    bool isHit;
+
     private void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
@@ -41,6 +43,11 @@ public class PlayerController : MonoBehaviour {
     public float GetWaterAmount()
     {
         return water;
+    }
+
+    public bool IsHit()
+    {
+        return isHit;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -76,6 +83,21 @@ public class PlayerController : MonoBehaviour {
             case "MagmaZone":
                 SceneManager.LoadScene("GameOver");
                 break;
+            case "enemy":
+                if (!isHit)
+                {
+                    if (transform.position.x <= other.transform.position.x)
+                        m_Rigidbody.AddForce(new Vector2(-1, 1) * knockForce);
+                    else
+                        m_Rigidbody.AddForce(new Vector2(1, 1) * knockForce);
+
+                    LoseWater(damageTaken);
+
+                    transform.Find("Container").GetComponent<Animator>().SetTrigger("Hit");
+                    isHit = true;
+                    StartCoroutine(PreventHit());
+                }
+                break;
             default:
                 break;
 
@@ -83,7 +105,25 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void OnCollisionEnter2D(Collision2D other)
+    public IEnumerator PreventHit()
+    {
+        transform.Find("Container").GetComponent<SpriteRenderer>().color = Color.white * 0.5f;
+        yield return new WaitForSeconds(0.1f);
+
+        isHit = false;
+        transform.Find("Container").GetComponent<SpriteRenderer>().color = Color.white;
+
+        if (GetComponent<CharacterMovement>().IsWalking())
+        {
+            transform.Find("Container").GetComponent<Animator>().SetTrigger("Walk");
+        }
+        else
+        {
+            transform.Find("Container").GetComponent<Animator>().SetTrigger("Idle");
+        }
+    }
+
+    /*void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "enemy")
         {
@@ -92,11 +132,12 @@ public class PlayerController : MonoBehaviour {
             else
                 m_Rigidbody.AddForce(new Vector2(1, 1) * knockForce);
 
-            LoseWater(10);
+            LoseWater(damageTaken);
 
-            //GetComponent<Animator>().SetBool("Damage",true);
+            GetComponent<Animator>().SetTrigger("Hit");
+            isHit = true;
         }
-    }
+    }*/
 
     void OnTriggerExit2D(Collider2D other)
     {
@@ -162,7 +203,7 @@ public class PlayerController : MonoBehaviour {
         water -= amount;
         gameController.UpdatePlayerHUD();
 
-        transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(water / MAX_WATER, water / MAX_WATER, water / MAX_WATER), 10f * Time.deltaTime);
+        transform.localScale = new Vector3(water / MAX_WATER, water / MAX_WATER, 1);// Vector3.Lerp(transform.localScale, new Vector3(water / MAX_WATER, water / MAX_WATER, water / MAX_WATER), 10f * Time.deltaTime);
 
         if (water <= 0)
             SceneManager.LoadScene("GameOver");
@@ -176,7 +217,7 @@ public class PlayerController : MonoBehaviour {
             water = MAX_WATER;
         gameController.UpdatePlayerHUD();
 
-        transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(water / MAX_WATER, water / MAX_WATER, water / MAX_WATER), 10f * Time.deltaTime);
+        transform.localScale = new Vector3(water / MAX_WATER, water / MAX_WATER, 1); //Vector3.Lerp(transform.localScale, new Vector3(water / MAX_WATER, water / MAX_WATER, water / MAX_WATER), 10f * Time.deltaTime);
     }
 
     public IEnumerator LoseWaterCoroutine()
@@ -213,5 +254,17 @@ public class PlayerController : MonoBehaviour {
     public bool IsSpawningCloud()
     {
         return spawningCloud;
+    }
+
+    public void HandleLandEnded()
+    {
+        if (GetComponent<CharacterMovement>().IsWalking())
+        {
+            transform.Find("Container").GetComponent<Animator>().SetTrigger("Walk");
+        }
+        else
+        {
+            transform.Find("Container").GetComponent<Animator>().SetTrigger("Idle");
+        }
     }
 }

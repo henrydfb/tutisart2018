@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour {
 
     public Image playerWaterHUD;
+    public Text playerWaterPercentage;
 
 	// Use this for initialization
 	void Start () {
@@ -24,5 +25,6 @@ public class GameController : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         playerWaterHUD.fillAmount = (player.GetWaterAmount() / PlayerController.MAX_WATER);
+        playerWaterPercentage.text = player.GetWaterAmount().ToString("0") + "%";
     }
 }

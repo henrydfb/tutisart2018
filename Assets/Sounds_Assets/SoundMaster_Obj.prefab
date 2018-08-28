@@ -1,0 +1,209 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1629041620934774}
+  m_IsPrefabParent: 1
+--- !u!1 &1440883522377316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4173511259210012}
+  - component: {fileID: 114359384043470810}
+  m_Layer: 0
+  m_Name: SoundManager_Obj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1520970021330848
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4597783326963014}
+  - component: {fileID: 114833177745880058}
+  m_Layer: 0
+  m_Name: SoundStatus_Obj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1629041620934774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4389112130478074}
+  - component: {fileID: 114050030632185240}
+  m_Layer: 0
+  m_Name: SoundMaster_Obj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4173511259210012
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1440883522377316}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4389112130478074}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4389112130478074
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1629041620934774}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4597783326963014}
+  - {fileID: 4173511259210012}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4597783326963014
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1520970021330848}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4389112130478074}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114050030632185240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1629041620934774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c369f1b033b06de4a8a9795c8c366538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  list_size:
+  - Sound_Name: Cloud_Shot
+    audioclip: {fileID: 8300000, guid: 29b0f8d36544be0419e3e6c6873112f6, type: 3}
+    ChannelBase: 0
+    ObjectBase: 1
+    Change:
+      Change_now: 0
+      Rate_of_change: 0
+      Rate_now: 0
+    sampleshot: 0
+  - Sound_Name: Cloud_Shot_traget
+    audioclip: {fileID: 8300000, guid: 02dae37f71d555b4aa824d03fd3a138b, type: 3}
+    ChannelBase: 0
+    ObjectBase: 1
+    Change:
+      Change_now: 0
+      Rate_of_change: 0
+      Rate_now: 0
+    sampleshot: 0
+  - Sound_Name: Cloud_Shot_traget_Decision
+    audioclip: {fileID: 8300000, guid: 744d9d27e6d6cb6409af4598aadb734e, type: 3}
+    ChannelBase: 1
+    ObjectBase: 1
+    Change:
+      Change_now: 0
+      Rate_of_change: 0
+      Rate_now: 0
+    sampleshot: 0
+  - Sound_Name: Drop_Run
+    audioclip: {fileID: 8300000, guid: e2509d4dc33b0e34e8e06a056df82889, type: 3}
+    ChannelBase: 1
+    ObjectBase: 0
+    Change:
+      Change_now: 0
+      Rate_of_change: 0
+      Rate_now: 0
+    sampleshot: 0
+  - Sound_Name: Erop_Walk
+    audioclip: {fileID: 8300000, guid: f62b7296f3783854db6831ef5a1ea0bb, type: 3}
+    ChannelBase: 1
+    ObjectBase: 0
+    Change:
+      Change_now: 0
+      Rate_of_change: 0
+      Rate_now: 0
+    sampleshot: 0
+  - Sound_Name: Cloud_GrowUp
+    audioclip: {fileID: 8300000, guid: fa667b4a5d31b25498f789badc108cb5, type: 3}
+    ChannelBase: 0
+    ObjectBase: 1
+    Change:
+      Change_now: 0
+      Rate_of_change: 0
+      Rate_now: 0
+    sampleshot: 0
+  - Sound_Name: Drop_Jump
+    audioclip: {fileID: 8300000, guid: 5100af00d1a70b742a1161c7836cbd2c, type: 3}
+    ChannelBase: 1
+    ObjectBase: 0
+    Change:
+      Change_now: 0
+      Rate_of_change: 0
+      Rate_now: 0
+    sampleshot: 0
+  - Sound_Name: Rain
+    audioclip: {fileID: 8300000, guid: f812c49bc30d0be409a8f5b254f13744, type: 3}
+    ChannelBase: 0
+    ObjectBase: 1
+    Change:
+      Change_now: 0
+      Rate_of_change: 0
+      Rate_now: 0
+    sampleshot: 0
+--- !u!114 &114359384043470810
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1440883522377316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e163174499092394180822d594d7992b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114833177745880058
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1520970021330848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34c96fe99cb6bd4bb1481291bfa5399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  namenumber: []
