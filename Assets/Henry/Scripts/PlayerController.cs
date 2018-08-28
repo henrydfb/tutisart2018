@@ -102,6 +102,21 @@ public class PlayerController : MonoBehaviour {
                 break;
 
 
+        if (other.tag == "DropZone")
+        {
+            insideDropZone = true;
+            waterCost = other.GetComponent<DropZoneController>().Cost;
+        }
+        }
+        if (other.gameObject.tag == "CheckPoint")
+        {
+            CheckPoint checkPoint = other.gameObject.GetComponent<CheckPoint>();
+
+            if (!checkPoint.IsChecked)
+            {
+                LevelManager.instance.CheckPoint = checkPoint.Index;
+                checkPoint.IsChecked = true;
+            }
         }
     }
 
@@ -165,6 +180,12 @@ public class PlayerController : MonoBehaviour {
                 break;
             default:
                 break;
+        }
+        if (other.gameObject.tag == "DropZone")
+        {
+            waterCost = 0;
+            insideDropZone = false;
+            Dropzone = null;
         }
     }
     

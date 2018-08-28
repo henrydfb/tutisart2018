@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public enum EGameState
 {
@@ -50,6 +50,21 @@ public class GameManager : MonoBehaviour
             MenuManager.instance.GetMenu(EMenu.PauseMenu).gameObject.SetActive(false);
             Time.timeScale = 1f;
         }
+    }
+
+    public void LoadLevel(int numLevel)
+    {
+        SceneManager.LoadScene(numLevel);
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 
     void OnDestroy()

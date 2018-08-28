@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114907390252018306}
   m_Layer: 0
   m_Name: DropZone
-  m_TagString: Drop
+  m_TagString: DropZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6374c65e300e354fafa606cc68c5fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cost: 0
 --- !u!212 &212384164629345568
 SpriteRenderer:
   m_ObjectHideFlags: 1

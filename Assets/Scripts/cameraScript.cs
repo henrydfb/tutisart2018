@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class cameraScript : MonoBehaviour
 {
-
-    public Transform Target { get; set; }
+    GameObject Target;
 
     [SerializeField]
     private Vector3 BeginPos;
@@ -31,6 +30,8 @@ public class cameraScript : MonoBehaviour
 
     void Start()
     {
+        Target = GameObject.Find("Player(Clone)");
+
         smoothing = 5f;
         isInBeginning = true;
         isInLevel = false;
@@ -39,20 +40,20 @@ public class cameraScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isInLevel)
-        {
+        //if (isInLevel)
+        //{
 
-           // Vector3 targetCamPos = Target.position + Offset;
+        // Vector3 targetCamPos = Target.position + Offset;
 
-            transform.position = Vector3.Lerp(transform.position, new Vector3 (Target.position.x, Target.position.y, -10), smoothing * Time.deltaTime);
-        }
-        else if (isInEnd)
-        {
-            transform.position = Vector3.Lerp(transform.position, EndPos, smoothing * Time.deltaTime);
-        }
-        else if (isInBeginning)
-        {
-            transform.position = Vector3.Lerp(transform.position, BeginPos, smoothing * Time.deltaTime);
-        }
+        transform.position = Vector3.Lerp(transform.position, new Vector3 (Target.transform.position.x, Target.transform.position.y, -10), smoothing * Time.deltaTime);
+        //}
+        //else if (isInEnd)
+        //{
+        //    transform.position = Vector3.Lerp(transform.position, EndPos, smoothing * Time.deltaTime);
+        //}
+        //else if (isInBeginning)
+        //{
+        //    transform.position = Vector3.Lerp(transform.position, BeginPos, smoothing * Time.deltaTime);
+        //}
     }
 }
