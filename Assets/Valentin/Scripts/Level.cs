@@ -4,7 +4,8 @@ using UnityEngine;
 
 public static class Level
 {
-    private static int indexLevel, lastCheckpoint;
+    private static int indexLevel;
+    private static int lastCheckpoint = 0;
 
     public static int IndexLevel
     {

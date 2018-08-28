@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
             insideCloudeZone = true;
             zone = other.gameObject.GetComponent<CloudZoneController>();
         }
-        if (other.tag == "Drop")
+        if (other.tag == "DropZone")
         {
             insideDropZone = true;
             waterCost = other.GetComponent<DropZoneController>().Cost;
@@ -59,6 +59,16 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.tag == "MagmaZone")
             SceneManager.LoadScene("GameOver");
+        if (other.gameObject.tag == "CheckPoint")
+        {
+            CheckPoint checkPoint = other.gameObject.GetComponent<CheckPoint>();
+
+            if (!checkPoint.IsChecked)
+            {
+                LevelManager.instance.CheckPoint = checkPoint.Index;
+                checkPoint.IsChecked = true;
+            }
+        }
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -84,7 +94,7 @@ public class PlayerController : MonoBehaviour
             zone = null;
         }
 
-        if (other.gameObject.tag == "Drop")
+        if (other.gameObject.tag == "DropZone")
         {
             waterCost = 0;
             insideDropZone = false;

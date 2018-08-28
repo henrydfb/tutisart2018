@@ -6,21 +6,44 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    private int index;
+    [SerializeField]
+    List<CheckPoint> checkPoints;
+    [SerializeField]
+    GameObject player;
 
-	// Use this for initialization
-	void Start ()
+    private int index;
+    private int checkPoint;
+
+    public static LevelManager instance = null;
+
+    public int CheckPoint
+    {
+        get { return checkPoint; }
+        set { checkPoint = value; }
+    }
+
+    void Awake()
+    {
+        instance = this;
+    }
+
+    // Use this for initialization
+    void Start ()
     {
         index = SceneManager.GetActiveScene().buildIndex;
-
-        Debug.Log(index);
-
         Level.IndexLevel = index;
+
+        Instantiate(player, checkPoints[Level.LastCheckpoint].transform.position, Quaternion.identity);
     }
 
     // Update is called once per frame
     void Update ()
     {
-		
-	}
+
+    }
+
+    void OnDestroy()
+    {
+        Level.LastCheckpoint = checkPoint;
+    }
 }

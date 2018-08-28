@@ -12,6 +12,8 @@ TagManager:
   - CloudZone
   - HotZone
   - MagmaZone
+  - CheckPoint
+  - DropZone
   layers:
   - Default
   - TransparentFX

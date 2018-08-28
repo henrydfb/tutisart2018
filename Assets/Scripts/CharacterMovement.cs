@@ -89,7 +89,7 @@ public class CharacterMovement : PhysicsObject
                 child.SetActive(true);
                 Camera.main.GetComponent<cameraScript>().isInLevel = true;
                 Camera.main.GetComponent<cameraScript>().isInBeginning = false;
-                Camera.main.GetComponent<cameraScript>().Target = child.transform;
+                //Camera.main.GetComponent<cameraScript>().Target = child.transform;
             }
             else
             {
@@ -112,7 +112,7 @@ public class CharacterMovement : PhysicsObject
                 child.SetActive(true);
                 Camera.main.GetComponent<cameraScript>().isInLevel = true;
                 Camera.main.GetComponent<cameraScript>().isInEnd = false;
-                Camera.main.GetComponent<cameraScript>().Target = child.transform;
+                //Camera.main.GetComponent<cameraScript>().Target = child.transform;
             }
 
         }
