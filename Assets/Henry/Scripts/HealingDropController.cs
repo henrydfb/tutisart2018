@@ -6,7 +6,7 @@ public class HealingDropController : DropController {
     {
         base.OnTriggerEnter2D(other);
 
-        if (other.gameObject.name == "Player")
+        if (other.gameObject.tag == "Player")
             other.gameObject.GetComponent<PlayerController>().GainWater(10);
     }
 }

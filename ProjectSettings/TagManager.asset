@@ -4,16 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - beginTrigger
-  - endTrigger
   - Wall
   - enemy
+  - endTrigger
+  - beginTrigger
   - Drop
   - CloudZone
-  - HotZone
-  - MagmaZone
-  - CheckPoint
-  - DropZone
+  - Water
   layers:
   - Default
   - TransparentFX

@@ -30,7 +30,7 @@ public class cameraScript : MonoBehaviour
 
     void Start()
     {
-        Target = GameObject.Find("Player(Clone)");
+        
 
         smoothing = 5f;
         isInBeginning = true;
@@ -44,7 +44,7 @@ public class cameraScript : MonoBehaviour
         //{
 
         // Vector3 targetCamPos = Target.position + Offset;
-
+        Target = GameObject.Find("Player(Clone)");
         transform.position = Vector3.Lerp(transform.position, new Vector3 (Target.transform.position.x, Target.transform.position.y, -10), smoothing * Time.deltaTime);
         //}
         //else if (isInEnd)

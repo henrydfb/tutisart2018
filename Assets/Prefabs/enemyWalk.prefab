@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4474418334154922}
   - component: {fileID: 212807595772843878}
   - component: {fileID: 58610235454037894}
-  - component: {fileID: 50710490269223896}
   - component: {fileID: 114719505469926118}
-  - component: {fileID: 95116303489284422}
+  - component: {fileID: 50699787493258098}
+  - component: {fileID: 95591069785969052}
   m_Layer: 0
   m_Name: enemyWalk
   m_TagString: enemy
@@ -38,13 +38,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1514474467975696}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.07, y: -0.76, z: -0.11197756}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalPosition: {x: -2.42, y: -1.62, z: -0.11197756}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50710490269223896
+--- !u!50 &50699787493258098
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
@@ -58,7 +58,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -79,7 +79,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
---- !u!95 &95116303489284422
+--- !u!95 &95591069785969052
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -88,7 +88,7 @@ Animator:
   m_GameObject: {fileID: 1514474467975696}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9a5fd1048e6f6a84ab6e8aa8b78d5adf, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -144,7 +144,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 8c8367e78fca7174a928bf9f77350cc1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

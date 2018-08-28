@@ -23,7 +23,7 @@ public class PathController : MonoBehaviour {
 
     public int aimPointIdx = 0;
     protected CloudAimController aim;
-    PlayerController player;
+    //PlayerController player;
     
     // Use this for initialization
     void Start ()
@@ -33,7 +33,7 @@ public class PathController : MonoBehaviour {
         StartCoroutine(Helper.MoveRoutine(aim.gameObject, transform.GetChild(aimPointIdx + 1).position, 1, ReachedPointCallback));
 
 
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        //player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         Deactivate();
 	}

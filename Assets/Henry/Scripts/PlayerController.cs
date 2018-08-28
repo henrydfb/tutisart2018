@@ -77,8 +77,6 @@ public class PlayerController : MonoBehaviour {
             case "HotZone":
                 HotZone hotZone = other.gameObject.GetComponent<HotZone>();
                 currentWaterLose = hotZone.WaterLoss;
-
-                Debug.Log("HotZONE");
                 break;
             case "MagmaZone":
                 SceneManager.LoadScene("GameOver");
