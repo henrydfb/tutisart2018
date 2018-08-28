@@ -6,6 +6,10 @@ TagManager:
   tags:
   - beginTrigger
   - endTrigger
+  - Drop
+  - CloudZone
+  - Platform
+  - HealingCloud
   layers:
   - Default
   - TransparentFX

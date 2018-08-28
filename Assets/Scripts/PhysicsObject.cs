@@ -31,7 +31,7 @@ public class PhysicsObject : MonoBehaviour
         contactFilter.useLayerMask = true;
     }
 
-    void Update()
+    protected virtual void Update()
     {
         targetVelocity = Vector2.zero;
         ComputeVelocity();
@@ -42,24 +42,25 @@ public class PhysicsObject : MonoBehaviour
 
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
+        Vector3 prevPos = transform.position;
         velocity += gravityModifier * Physics2D.gravity * Time.fixedDeltaTime;
         velocity.x = targetVelocity.x;
-
+        
         grounded = false;
 
         Vector2 deltaPosition = velocity * Time.fixedDeltaTime;
         Vector2 moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
         Vector2 move = moveAlongGround * deltaPosition.x;
-
+        
         Movement(move, false);
 
         move = Vector2.up * deltaPosition.y;
 
         Movement(move, true);
     }
-
+    
     void Movement(Vector2 move, bool yMovement)
     {
         float distance = move.magnitude;
@@ -93,7 +94,7 @@ public class PhysicsObject : MonoBehaviour
                 distance = modifiedDistance < distance ? modifiedDistance : distance;
             }
         }
-
+        
         rb2d.position = rb2d.position + move.normalized * distance;
     }
 }

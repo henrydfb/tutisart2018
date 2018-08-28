@@ -13,51 +13,82 @@ public class CharacterMovement : PhysicsObject
     private bool leftMove = false;
     private bool rightMove = false;
 
+    private bool idling = false;
+    private bool jumping = false;
+    private bool falling = false;
+    private bool walking = false;
+    Vector3 prevPos;
+    GameObject container;
+    PlayerController playerController;
+
     // Use this for initialization
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    private void Start()
+    {
+        container = transform.Find("Container").gameObject;
+        playerController = GetComponent<PlayerController>();
+    }
+
     protected override void ComputeVelocity()
     {
         Vector2 move = Vector2.zero;
 
-        leftMove = Input.GetKey("q");
-        rightMove = Input.GetKey("d");
+        leftMove = Input.GetAxisRaw("Horizontal") < 0; //Input.GetKey("q");
+        rightMove = Input.GetAxisRaw("Horizontal") > 0; //Input.GetKey("d");
 
         if (leftMove && rightMove)
         {
             move.x = 0;
-            GetComponent<Animator>().SetTrigger("Idle");
+            if (!idling)
+            {
+                if (!jumping && !playerController.IsSpawningCloud())
+                   container.GetComponent<Animator>().SetTrigger("Idle");
+                idling = true;
+            }
         }
         else if (rightMove)
         {
             move.x = 1;
-            GetComponent<Animator>().SetTrigger("Walk");
+            if(!jumping && !walking && !playerController.IsSpawningCloud())
+                container.GetComponent<Animator>().SetTrigger("Walk");
             transform.localScale = new Vector3(1, 1, 1);
+            idling = false;
+            walking = true;
         }
         else if (leftMove)
         {
             move.x = -1;
-            GetComponent<Animator>().SetTrigger("Walk");
+            if (!jumping && !walking && !playerController.IsSpawningCloud())
+                container.GetComponent<Animator>().SetTrigger("Walk");
             transform.localScale = new Vector3(-1, 1, 1);
+            idling = false;
+            walking = true;
         }
         else
         {
-            if(!leftMove && !rightMove)
-                GetComponent<Animator>().SetTrigger("Idle");
+            if (!idling)
+            {
+                if (!jumping && !playerController.IsSpawningCloud())
+                    container.GetComponent<Animator>().SetTrigger("Idle");
+                idling = true;
+                walking = false;
+            }
         }
 
         if (grounded)
             doubleJump = false;
 
         if (Input.GetButtonDown("Jump") && grounded)
-            velocity.y = jumpTakeOffSpeed;
+            container.GetComponent<Animator>().SetTrigger("Jump");
         else if (Input.GetButtonDown("Jump") && !doubleJump)
         {
             velocity.y = jumpTakeOffSpeed * 1.5f;
             doubleJump = true;
+            container.GetComponent<Animator>().SetTrigger("DirectJump");
         }
         else if (Input.GetButtonUp("Jump"))
         {
@@ -66,5 +97,37 @@ public class CharacterMovement : PhysicsObject
         }
 
         targetVelocity = move * maxSpeed;
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        
+        if (!falling && jumping)
+        {
+            if (prevPos.y > transform.position.y)
+            {
+                container.GetComponent<Animator>().SetTrigger("Fall");
+                falling = true;
+            }
+        }
+
+        if ((jumping || falling) && grounded)
+        {
+            container.GetComponent<Animator>().SetTrigger("Land");
+            jumping = false;
+            falling = false;
+            container.transform.localEulerAngles = new Vector3(0, 0, 0);
+        }
+
+        prevPos = transform.position;
+    }
+    
+    public void StartJumpEnded()
+    {
+        velocity.y = jumpTakeOffSpeed;
+        jumping = true;
+        falling = false;
+        walking = false;
     }
 }

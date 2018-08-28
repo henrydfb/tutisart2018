@@ -35,3 +35,4 @@ sysinfo.txt
 *.apk
 *.unitypackage
 /Team1
+/Presentations/*.pptx
