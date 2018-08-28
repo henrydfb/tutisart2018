@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: aaafa710151ae854ca7450f432c3122b
+  - enabled: 0
     path: Assets/Valentin/Scenes/TitleScreen.unity
     guid: 18f04b055750aff4084047922c1d1bec
-  - enabled: 1
+  - enabled: 0
     path: Assets/Valentin/Scenes/LevelSelectionScreen.unity
     guid: a58ef050a30183d4e927844e7c63fc9b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Henry/Scenes/AllCycle.unity
     guid: 8c4fd0c124aafba439d3b7dcd6cf9370
   - enabled: 1
@@ -20,7 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Henry/Scenes/LevelClear.unity
     guid: 79f0bf09ecbc59446bf4845a772002af
-  - enabled: 1
+  - enabled: 0
     path: Assets/Valentin/Scenes/TestScene.unity
     guid: 5dab8228945af8c4da24c58b65a5ca2b
   m_configObjects: {}

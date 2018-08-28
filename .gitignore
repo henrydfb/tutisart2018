@@ -36,3 +36,5 @@ sysinfo.txt
 *.unitypackage
 /Team1
 /Presentations/*.pptx
+/Beta
+/*.zip
