@@ -34,11 +34,11 @@ public class PhysicsObject : MonoBehaviour
     protected virtual void Update()
     {
         targetVelocity = Vector2.zero;
-        //if (GameManager.instance != null)
-        //{
-        //    if (GameManager.instance.GameState == EGameState.InGame)
-            ComputeVelocity();
-
+        if (GameManager.instance != null)
+        {
+            if (GameManager.instance.GameState == EGameState.InGame)
+                ComputeVelocity();
+        }
     }
 
     protected virtual void ComputeVelocity()

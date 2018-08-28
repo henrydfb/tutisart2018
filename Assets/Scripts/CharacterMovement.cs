@@ -29,6 +29,8 @@ public class CharacterMovement : PhysicsObject
     {
         container = transform.Find("Container").gameObject;
         playerController = GetComponent<PlayerController>();
+        if (playerController == null)
+            Debug.Log("NOOOONNNNN");
     }
 
     protected override void ComputeVelocity()
@@ -152,7 +154,7 @@ public class CharacterMovement : PhysicsObject
                 child.SetActive(true);
                 Camera.main.GetComponent<cameraScript>().isInLevel = true;
                 Camera.main.GetComponent<cameraScript>().isInBeginning = false;
-                Camera.main.GetComponent<cameraScript>().Target = child.transform;
+                //Camera.main.GetComponent<cameraScript>().Target = child.transform;
             }
             else
             {
@@ -175,7 +177,7 @@ public class CharacterMovement : PhysicsObject
                 child.SetActive(true);
                 Camera.main.GetComponent<cameraScript>().isInLevel = true;
                 Camera.main.GetComponent<cameraScript>().isInEnd = false;
-                Camera.main.GetComponent<cameraScript>().Target = child.transform;
+                //Camera.main.GetComponent<cameraScript>().Target = child.transform;
             }
 
         }
