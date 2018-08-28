@@ -15,5 +15,4 @@ public class GameOverMenu : Menu
         Debug.Log(Level.LastCheckpoint);
         GameManager.instance.LoadLevel(Level.IndexLevel);
     }
-
 }
