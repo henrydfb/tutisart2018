@@ -10,6 +10,7 @@ public enum EMenu
     TitleMenu,
     LevelMenu,
     GameOverMenu,
+    WinMenu,
     Count
 }
 
