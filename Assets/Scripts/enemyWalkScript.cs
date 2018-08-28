@@ -12,17 +12,20 @@ public class enemyWalkScript : MonoBehaviour
     void Start()
     {
         direction = new Vector2(-1, 0);
+
     }
 
     void FixedUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, transform.position + new Vector3(direction.x, direction.y, 0), speed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, transform.position - new Vector3(direction.x, direction.y, 0), speed * Time.deltaTime);
     }
 
-
-    void OnCollisionEnter2D(Collision2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Wall")
+        if (col.tag == "Wall" || col.tag == "enemy")
+        {
             direction *= -1;
+            transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
+        }
     }
 }
